@@ -8,7 +8,7 @@ public class GUI extends JFrame implements ActionListener{
     private JLabel label1, label2, label3, label4;
     private JTextField plainTextField, keyTextField, chiperTextField, decryptedTextField;
     private JButton EncryptButton, DecryptButton;
-    private String cipherText = ""; //parameter to save the encrypted text
+    private byte[] cipherText; //parameter to save the encrypted text
     private Boolean isDecrypted = false; //parameter to if decrypted
 
     public GUI() {
@@ -94,9 +94,9 @@ public class GUI extends JFrame implements ActionListener{
                     "Plaintext and key must be 8 characters!", "Length Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            cipherText = DES.DESFunction(text, key, "encrypt"); //call our DES function
+            cipherText = DES.DESFunction(text.getBytes(), key.getBytes(), "encrypt"); //call our DES function
             this.decryptedTextField.setText(""); //sets the decrypted text field to ""
-            this.chiperTextField.setText(cipherText); //sets the output in the cipher text field
+            this.chiperTextField.setText(new String(cipherText)); //sets the output in the cipher text field
 
             //prints the keys of the encryption
             byte[][] keys = DES.KeySchedule(key.getBytes(), "encrypt");
@@ -122,8 +122,8 @@ public class GUI extends JFrame implements ActionListener{
                 return;
             }
             isDecrypted = true; //set the parameter to tell we decrypted
-            String decrypted = DES.DESFunction(cipherText, key, "decrypt"); //calls out DES function
-            this.decryptedTextField.setText(decrypted); //sets the decrypted tect in the text field
+            byte[] decrypted = DES.DESFunction(cipherText, key.getBytes(), "decrypt"); //calls DES function with cipherText and key
+            this.decryptedTextField.setText(new String(decrypted)); //sets the decrypted text in the text field
         }
     }
 

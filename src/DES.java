@@ -146,7 +146,7 @@ public class DES {
     }
 
     public static byte[] PCMinusOnePermutation(byte[] text){
-        byte[] output = new byte[7];
+        byte[] output = new byte[7]; //allocating of output array
 
         for (int i = 0; i < PCMInusOne.length; i++) { //goes through PCMInusOne table and initializing the new output array with currect index
             int bitInx = PCMInusOne[i] - 1; // represents the bit index of PCMInusOne table
@@ -165,7 +165,7 @@ public class DES {
     }
     
     public static byte[] PCMinusTwoPermutation(byte[] text){
-        byte[] output = new byte[6];
+        byte[] output = new byte[6]; //allocating of output array
 
         for (int i = 0; i < PCMinusTwo.length; i++) { //goes through PCMinusTwo table and initializing the new output array with currect index
             int bitInx = PCMinusTwo[i] - 1; // represents the bit index of PCMInusTwo table
@@ -184,7 +184,7 @@ public class DES {
     }
 
     public static byte[] ExpantionPermutation(byte[] text){
-        byte[] output = new byte[6]; //allocating new byte array with updated size
+        byte[] output = new byte[6]; //allocating of output array
 
         for (int i = 0; i < E.length; i++) { //goes through E table and initializing the new output array with currect index
             int bitInx = E[i] - 1; // represents the bit index of E table
@@ -203,7 +203,7 @@ public class DES {
     }
 
     public static byte[] pPermutation(byte[] text){
-        byte[] output = new byte[4]; //allocating new byte array with updated size
+        byte[] output = new byte[4]; //allocating of output array
 
         for (int i = 0; i < P.length; i++) { //goes through P table and initializing the new output array with currect index
             int bitInx = P[i] - 1; // represents the bit index of P table
@@ -334,15 +334,16 @@ public class DES {
     }
 
 
-    public static String DESFunction(String text, String key, String mode){ // mode can be only "encrypt" or "decrypt" 
-        if(text.length() != 8 || key.length() != 8)//checks if length of text and key valid
-            return "Invalid length of parameters!";
+    public static byte[] DESFunction(byte[] text, byte[] key, String mode){ // mode can be only "encrypt" or "decrypt" 
+        if(text.length != 8 || key.length != 8)//checks if length of text and key valid
+            return "Invalid length of parameters!".getBytes(); //returns byte array representing error message
         if(mode != "encrypt" && mode != "decrypt")//checks if mode type is valid
-            return "Invalid mode!";
+            return "Invalid mode!".getBytes(); //returns byte array representing error message
+        //start of operations on text from user....
         byte[] output = new byte[8]; //our output array
-        byte[] newText = text.getBytes(); //converting from String to byte array
+        byte[] newText = text; //save text byte[] in new variable
         newText = InitialPermutation(newText); //calling initial permutation
-        byte[][] keys = KeySchedule(key.getBytes(), mode); //calling KeySchedule to generate keys
+        byte[][] keys = KeySchedule(key, mode); //calling KeySchedule to generate keys
         //splite newText to left and right arrays, each 32 bits (4 bytes)
         byte[] left = Arrays.copyOfRange(newText, 0, newText.length / 2); //splits first 4 bytes 
         byte[] right = Arrays.copyOfRange(newText, newText.length / 2, newText.length); //splits the other 4 bytes
@@ -356,15 +357,18 @@ public class DES {
         System.arraycopy(right, 0, output, 0, right.length); //copy right output
         System.arraycopy(left, 0, output, right.length, left.length); //copy left to output
         output = FinalPermutation(output); //sending new output to finalPermutation
-        String finalOutput = new String(output); //converting the byte array output to String
-        return finalOutput; //return new ciphered text
+        return output; //return new output
     }
 
 //==============================================================================================================//
 
     public static void main(String[] args) { //main
-        String output = DESFunction("shayaaaa", "shayssss", "encrypt"); //encryption
-        System.out.println(output);
-        System.out.println(DESFunction(output, "shayssss", "decrypt")); //decryption
+        //check DES function
+        String plainText = "thoughts"; //text
+        String key = "nonsense"; //key
+        byte[] cipherText = DESFunction(plainText.getBytes(), key.getBytes(), "encrypt"); //encryption
+        System.out.println(new String(cipherText)); //print cipher text
+        byte[] decrypted = DESFunction(cipherText, key.getBytes(), "decrypt"); //decryption
+        System.out.println(new String(decrypted)); //print original text
     }
 }
