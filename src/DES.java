@@ -363,8 +363,8 @@ public class DES {
 //==============================================================================================================//
 
     public static void main(String[] args) { //main
-        String output = DESFunction("thoughts", "nonsense", "encrypt"); //encryption
+        String output = DESFunction("shayaaaa", "shayssss", "encrypt"); //encryption
         System.out.println(output);
-        System.out.println(DESFunction(output, "nonsense", "decrypt")); //decryption
+        System.out.println(DESFunction(output, "shayssss", "decrypt")); //decryption
     }
 }

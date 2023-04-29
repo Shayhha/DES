@@ -8,7 +8,8 @@ public class GUI extends JFrame implements ActionListener{
     private JLabel label1, label2, label3, label4;
     private JTextField plainTextField, keyTextField, chiperTextField, decryptedTextField;
     private JButton EncryptButton, DecryptButton;
-    private Boolean isDecrypted = false;
+    private String cipherText = ""; //parameter to save the encrypted text
+    private Boolean isDecrypted = false; //parameter to if decrypted
 
     public GUI() {
         //set the title and size of the frame
@@ -82,7 +83,7 @@ public class GUI extends JFrame implements ActionListener{
         String key = this.keyTextField.getText();
 
         if(e.getSource() == this.EncryptButton){ //if Encrypt button pressed
-            isDecrypted = false;
+            isDecrypted = false;// set parameter to false 
             if(text.isEmpty() || key.isEmpty()){ //if fields are empty
                 JOptionPane.showMessageDialog(null,
                     "Fields are empty!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -93,10 +94,12 @@ public class GUI extends JFrame implements ActionListener{
                     "Plaintext and key must be 8 characters!", "Length Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            String output = DES.DESFunction(text, key, "encrypt"); //call our DES function
+            cipherText = DES.DESFunction(text, key, "encrypt"); //call our DES function
+            this.decryptedTextField.setText(""); //sets the decrypted text field to ""
+            this.chiperTextField.setText(cipherText); //sets the output in the cipher text field
 
-            byte[][] keys = DES.KeySchedule(key.getBytes(), "encrypt");
             //prints the keys of the encryption
+            byte[][] keys = DES.KeySchedule(key.getBytes(), "encrypt");
             System.out.println("Keys:");
             for (byte[] row : keys) {
                 for (byte b : row) {
@@ -105,23 +108,20 @@ public class GUI extends JFrame implements ActionListener{
                 }
                 System.out.println();
             }
-
-            this.decryptedTextField.setText(""); //sets the decrypted text field to ""
-            this.chiperTextField.setText(output); //sets the output in the cipher text field
         }
+        
         if(e.getSource() == this.DecryptButton){ //if Decrypt button pressed
             if(isDecrypted == true){ //check we decrypted already
                 JOptionPane.showMessageDialog(null,
                     "You already decrypted!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            isDecrypted = true;
-            String cipherText = this.chiperTextField.getText();
-            if(cipherText.isEmpty()){ //checks if we didnt encrypt 
+            if(this.chiperTextField.getText().isEmpty()){ //checks if we didnt encrypt 
                 JOptionPane.showMessageDialog(null,
                     "You must encrypt first!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            isDecrypted = true; //set the parameter to tell we decrypted
             String decrypted = DES.DESFunction(cipherText, key, "decrypt"); //calls out DES function
             this.decryptedTextField.setText(decrypted); //sets the decrypted tect in the text field
         }
