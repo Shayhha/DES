@@ -120,7 +120,7 @@ public class DES {
             //so we can calculate the position with the remainder of its position when divided by 8
 
             int bitValue = (text[byteInx] >> bitOffset) & 0x1; //gets the desired bit from text array, 
-            //and shifting the bit with offset to left to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
+            //and shifting the bit with offset to right to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
             output[i / 8] |= (bitValue << (7 - (i % 8)));//sets current bit val in the output byte[] by doing OR between the current value of the byte and the shifted bitValue
         }
         return output; //return the premuted array
@@ -139,7 +139,7 @@ public class DES {
             //so we can calculate the position with the remainder of its position when divided by 8
 
             int bitValue = (text[byteInx] >> bitOffset) & 0x1; //gets the desired bit from text array, 
-            //and shifting the bit with offset to left to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
+            //and shifting the bit with offset to right to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
             output[i / 8] |= (bitValue << (7 - (i % 8)));//sets current bit val in the output byte[] by doing OR between the current value of the byte and the shifted bitValue
         }
         return output; //return the premuted array
@@ -158,7 +158,7 @@ public class DES {
             //so we can calculate the position with the remainder of its position when divided by 8
 
             int bitValue = (text[byteInx] >> bitOffset) & 0x1; //gets the desired bit from text array, 
-            //and shifting the bit with offset to left to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
+            //and shifting the bit with offset to right to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
             output[i / 8] |= (bitValue << (7 - (i % 8)));//sets current bit val in the output byte[] by doing OR between the current value of the byte and the shifted bitValue
         }
         return output; //return the premuted array
@@ -177,7 +177,7 @@ public class DES {
             //so we can calculate the position with the remainder of its position when divided by 8
 
             int bitValue = (text[byteInx] >> bitOffset) & 0x1; //gets the desired bit from text array, 
-            //and shifting the bit with offset to left to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
+            //and shifting the bit with offset to right to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
             output[i / 8] |= (bitValue << (7 - (i % 8)));//sets current bit val in the output byte[] by doing OR between the current value of the byte and the shifted bitValue
         }
         return output; //return the premuted array
@@ -196,7 +196,7 @@ public class DES {
             //so we can calculate the position with the remainder of its position when divided by 8
 
             int bitValue = (text[byteInx] >> bitOffset) & 0x1; //gets the desired bit from text array, 
-            //and shifting the bit with offset to left to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
+            //and shifting the bit with offset to right to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
             output[i / 8] |= (bitValue << (7 - (i % 8)));//sets current bit val in the output byte[] by doing OR between the current value of the byte and the shifted bitValue
         }
         return output; //return the premuted array
@@ -215,7 +215,7 @@ public class DES {
             //so we can calculate the position with the remainder of its position when divided by 8
 
             int bitValue = (text[byteInx] >> bitOffset) & 0x1; //gets the desired bit from text array, 
-            //and shifting the bit with offset to left to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
+            //and shifting the bit with offset to right to get it in the LSB index and then we & with 00000001 = 0x1 so we get only our desired bit
             output[i / 8] |= (bitValue << (7 - (i % 8))); //sets current bit val in the output byte[] by doing OR between the current value of the byte and the shifted bitValue
         }
         return output; //return the premuted array
