@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Base64;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -96,7 +97,7 @@ public class GUI extends JFrame implements ActionListener{
             }
             cipherText = DES.DESFunction(text.getBytes(), key.getBytes(), "encrypt"); //call our DES function
             this.decryptedTextField.setText(""); //sets the decrypted text field to ""
-            this.chiperTextField.setText(new String(cipherText)); //sets the output in the cipher text field
+            this.chiperTextField.setText(Base64.getEncoder().encodeToString(cipherText)); //sets the output in the cipher text field
 
             //prints the keys of the encryption
             byte[][] keys = DES.KeySchedule(key.getBytes(), "encrypt");
