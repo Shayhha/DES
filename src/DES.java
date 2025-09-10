@@ -22,20 +22,47 @@ public class DES {
         36, 4, 44, 12, 52, 20, 60, 28,
         35, 3, 43, 11, 51, 19, 59, 27,
         34, 2, 42, 10, 50, 18, 58, 26,
-        33, 1, 41, 9, 49, 17, 57,  25 
+        33, 1, 41,  9, 49, 17, 57, 25 
     };
                 
     public static final int[] E = {
-        32, 1,  2,  3,  4,   5,
-        4,  5,  6,  7,  8,   9,
-        8,  9,  10, 11, 12, 13,
+        32,  1,  2,  3,  4,  5,
+         4,  5,  6,  7,  8,  9,
+         8,  9, 10, 11, 12, 13,
         12, 13, 14, 15, 16, 17,
         16, 17, 18, 19, 20, 21,
         20, 21, 22, 23, 24, 25,
         24, 25, 26, 27, 28, 29,
         28, 29, 30, 31, 32,  1 
     };
-                   
+                  
+    public static final int[] P = {
+        16,	 7,	20,	21,	29,	12,	28,	17,
+         1,	15,	23,	26,	 5,	18,	31,	10,
+         2,	 8,	24,	14,	32,	27,	 3,	 9,
+        19,	13,	30,	 6,	22,	11,	 4,	25
+    };
+
+    public static final int[] PCMinusOne = {
+        57, 49, 41, 33, 25, 17,  9,
+         1, 58, 50, 42, 34, 26, 18,
+        10,  2, 59, 51, 43, 35, 27,
+        19, 11,  3, 60, 52, 44, 36,
+        63, 55, 47, 39, 31, 23, 15,
+         7, 62, 54, 46, 38, 30, 22,
+        14,  6, 61, 53, 45, 37, 29,
+        21, 13,  5, 28, 20, 12,  4
+    };
+
+    public static final int[] PCMinusTwo = {
+        14, 17, 11, 24,  1,  5,  3, 28,
+        15,  6, 21, 10, 23, 19, 12,  4,
+        26,  8, 16,  7, 27, 20, 13,  2,
+        41, 52, 31, 37, 47, 55, 30, 40,
+        51, 45, 33, 48, 44, 49, 39, 56,
+        34, 53, 46, 42, 50, 36, 29, 32
+    };
+
     //SBox tables
     public static final int[][][] SBoxes = {
        {{ 14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7 },
@@ -79,35 +106,9 @@ public class DES {
        { 2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11 }}
 };
     
-    public static final int[] P ={
-        16,	7,	20,	21,	29,	12,	28,	17,
-        1,	15,	23,	26,	5,	18,	31,	10,
-        2,	8,	24,	14,	32,	27,	3,	9,
-        19,	13,	30,	6,	22,	11,	4,	25,
-    };
-
-    public static final int[] PCMInusOne = {
-        57, 49, 41, 33, 25, 17, 9,
-        1, 58, 50, 42, 34, 26, 18,
-        10, 2, 59, 51, 43, 35, 27,
-        19, 11, 3, 60, 52, 44, 36,
-        63, 55, 47, 39, 31, 23, 15,
-        7, 62, 54, 46, 38, 30, 22,
-        14, 6, 61, 53, 45, 37, 29,
-        21,  13, 5, 28, 20, 12, 4
-    };
-
-    public static final int[] PCMinusTwo = {
-        14, 17, 11, 24, 1, 5, 3, 28,
-        15, 6, 21, 10, 23, 19, 12, 4,
-        26, 8, 16, 7, 27, 20, 13, 2,
-        41, 52, 31, 37, 47, 55, 30, 40,
-        51, 45, 33, 48, 44, 49, 39, 56,
-        34, 53, 46, 42, 50, 36, 29, 32
-    };
 //=========================================================Permutations=======================================================================//
 
-    public static byte[] InitialPermutation(byte[] text){ //initial permutation func 1001 1001 1111 0011 -> 0000 0000 0000 0001
+    public static byte[] InitialPermutation(byte[] text) { //initial permutation func 1001 1001 1111 0011 -> 0000 0000 0000 0001
         byte[] output = new byte[8]; //create new byte array of size 64 bit
 
         for (int i = 0; i < IP.length; i++) { //goes through IP table and initializing the new output array with currect index
@@ -126,7 +127,7 @@ public class DES {
         return output; //return the premuted array
     }
 
-    public static byte[] FinalPermutation(byte[] text){
+    public static byte[] FinalPermutation(byte[] text) {
         byte[] output = new byte[8]; //create new byte array of size 64 bit
 
         for (int i = 0; i < IPMinusOne.length; i++) { //goes through IP-1 table and initializing the new output array with currect index
@@ -145,11 +146,11 @@ public class DES {
         return output; //return the premuted array
     }
 
-    public static byte[] PCMinusOnePermutation(byte[] text){
+    public static byte[] PCMinusOnePermutation(byte[] text) {
         byte[] output = new byte[7]; //allocating of output array
 
-        for (int i = 0; i < PCMInusOne.length; i++) { //goes through PCMInusOne table and initializing the new output array with currect index
-            int bitInx = PCMInusOne[i] - 1; // represents the bit index of PCMInusOne table
+        for (int i = 0; i < PCMinusOne.length; i++) { //goes through PCMInusOne table and initializing the new output array with currect index
+            int bitInx = PCMinusOne[i] - 1; // represents the bit index of PCMInusOne table
             int byteInx = bitInx / 8; //calculates the byte index in array by simpley dividing by 8 beacsue we know all bytes are size of 8
 
             
@@ -164,7 +165,7 @@ public class DES {
         return output; //return the premuted array
     }
     
-    public static byte[] PCMinusTwoPermutation(byte[] text){
+    public static byte[] PCMinusTwoPermutation(byte[] text) {
         byte[] output = new byte[6]; //allocating of output array
 
         for (int i = 0; i < PCMinusTwo.length; i++) { //goes through PCMinusTwo table and initializing the new output array with currect index
@@ -183,7 +184,7 @@ public class DES {
         return output; //return the premuted array
     }
 
-    public static byte[] ExpantionPermutation(byte[] text){
+    public static byte[] ExpantionPermutation(byte[] text) {
         byte[] output = new byte[6]; //allocating of output array
 
         for (int i = 0; i < E.length; i++) { //goes through E table and initializing the new output array with currect index
@@ -202,7 +203,7 @@ public class DES {
         return output; //return the premuted array
     }
 
-    public static byte[] pPermutation(byte[] text){
+    public static byte[] pPermutation(byte[] text) {
         byte[] output = new byte[4]; //allocating of output array
 
         for (int i = 0; i < P.length; i++) { //goes through P table and initializing the new output array with currect index
@@ -222,9 +223,9 @@ public class DES {
     }
 //============================================================================================================================================//
 
-    public static byte[][] KeySchedule(byte[] key, String mode){
+    public static byte[][] KeySchedule(byte[] key, Boolean isDecrypt) {
         byte[][] keys = new byte[16][6]; //keys array for our use later, 16 different keys each 48 bit
-        key = PCMinusOnePermutation(key); //sending key to first permutation
+        byte[] newKey = PCMinusOnePermutation(key); //sending key to first permutation
         //splite the key byte array to form two 28 bit halfs represented in int
         int left = 0;
         int right = 0;
@@ -232,16 +233,16 @@ public class DES {
         //copy first 3 bytes and first 4 bits of 4th byte to left
         for (int i = 0; i < 3; i++) {
             left = left << 8; //shift to the left by 8 so we can insert our byte
-            left |= key[i] & 0xFF; // append byte to left
+            left |= newKey[i] & 0xFF; // append byte to left
         }
         left = left << 4; // make space for last 4 bits of 4th byte
-        left |= (key[3] >> 4) & 0xF; // append first 4 bits of 4th byte to left
+        left |= (newKey[3] >> 4) & 0xF; // append first 4 bits of 4th byte to left
 
         //copy last 4 bits of 4th byte and remaining 3 bytes to right
-        right = key[3] & 0xF; // append last 4 bits of 4th byte to right
+        right = newKey[3] & 0xF; // append last 4 bits of 4th byte to right
         for (int i = 4; i < 7; i++) {
             right = right << 8; //shift to the left by 8 so we can insert our byte
-            right |= key[i] & 0xFF; // append byte to left
+            right |= newKey[i] & 0xFF; // append byte to left
         }
 
         //loops the key 16 times to initialize the keys array
@@ -281,9 +282,9 @@ public class DES {
             keys[i] = currentkey; //adds current round key to keys array
         }
 
-        if(mode.equals("decrypt")){ //if we need to decrypt then we reverse the keys array
+        if(isDecrypt) { //if we need to decrypt then we reverse the keys array
             byte[][] reversedKeys = new byte[16][6];
-            for(int i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
                 reversedKeys[15-i] = keys[i];
             return reversedKeys; //return reversedKeys
         }
@@ -291,9 +292,9 @@ public class DES {
     }
 
    
-    public static byte[] XOR(byte[] text1, byte[] text2){ //xor function for use in DES 
+    public static byte[] XOR(byte[] text1, byte[] text2) { //xor function for use in DES 
         byte[] output = new byte[text1.length]; // new output array with size of 48 bits
-        for(int i = 0; i < output.length; i++){ 
+        for (int i = 0; i < output.length; i++) { 
             output[i] = (byte) (text1[i] ^ text2[i]); //doing xor between each corresponding elements in arrays
         } 
         return output; //returns new array that represents the xor of two arrays
@@ -301,7 +302,7 @@ public class DES {
 
 //==============================================================================================================//
 
-    public static byte[] F(byte[] RightText, byte[] key){
+    public static byte[] F(byte[] RightText, byte[] key) {
         byte[] output = new byte[4];//allocation of final array 
         byte[] NewRight = ExpantionPermutation(RightText); //saving the new permutated RightText in new variable
         NewRight = XOR(NewRight, key); // xor between key and NewRight 
@@ -311,10 +312,10 @@ public class DES {
             SplitNewRight |= NewRight[i] & 0xFF; // append byte to left (newRignt is 48 bits)
         }
         int outputValue = 0; //we use this int to add our 4 bits each iteration
-        for(int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             int SboxIndexes = 0; // we use it to calculate sbox indexs
             SboxIndexes = SboxIndexes << 6; //shift the SboxIndexes to the left by 6 so we can insert our 6 bits
-            SboxIndexes |= (SplitNewRight >> 42 - (i * 6)) & 0x3F; // does shifts to right to get the 6 MSB bits
+            SboxIndexes |= (SplitNewRight >> (42 - (i * 6))) & 0x3F; // does shifts to right to get the 6 MSB bits
             //then in each iteration we substract i*6 so we get the correct bits each time, then doing & with 0111111 to get the 6 bits
             //now we calculate the sbox col and row
             int msb = (SboxIndexes >> 5) & 0x01; // we shift right 4 times for MSB (bit 5)
@@ -334,20 +335,19 @@ public class DES {
     }
 
 
-    public static byte[] DESFunction(byte[] text, byte[] key, String mode){ // mode can be only "encrypt" or "decrypt" 
-        if(text.length != 8 || key.length != 8)//checks if length of text and key valid
+    public static byte[] DESFunction(byte[] text, byte[] key, Boolean isDecrypt) { 
+        if (text.length != 8 || key.length != 8)//checks if length of text and key valid
             return "Invalid length of parameters!".getBytes(); //returns byte array representing error message
-        if(mode != "encrypt" && mode != "decrypt")//checks if mode type is valid
-            return "Invalid mode!".getBytes(); //returns byte array representing error message
+
         //start of operations on text from user....
         byte[] output = new byte[8]; //our output array
         byte[] newText = text; //save text byte[] in new variable
         newText = InitialPermutation(newText); //calling initial permutation
-        byte[][] keys = KeySchedule(key, mode); //calling KeySchedule to generate keys
+        byte[][] keys = KeySchedule(key, isDecrypt); //calling KeySchedule to generate keys
         //splite newText to left and right arrays, each 32 bits (4 bytes)
         byte[] left = Arrays.copyOfRange(newText, 0, newText.length / 2); //splits first 4 bytes 
         byte[] right = Arrays.copyOfRange(newText, newText.length / 2, newText.length); //splits the other 4 bytes
-        for(int i = 0; i < 16; i++){ //goes through loop 16 times
+        for (int i = 0; i < 16; i++) { //goes through loop 16 times
             byte[] tempRight = right; //save old right 
             byte[] fResult = F(right, keys[i]); //calls F function with old right and key and saves it in fResult
             right = XOR(left, fResult); //xor operation between old left and fResult
@@ -366,9 +366,9 @@ public class DES {
         //check DES function
         String plainText = "thoughts"; //text
         String key = "nonsense"; //key
-        byte[] cipherText = DESFunction(plainText.getBytes(), key.getBytes(), "encrypt"); //encryption
+        byte[] cipherText = DESFunction(plainText.getBytes(), key.getBytes(), false); //encryption
         System.out.println(new String(cipherText)); //print cipher text
-        byte[] decrypted = DESFunction(cipherText, key.getBytes(), "decrypt"); //decryption
+        byte[] decrypted = DESFunction(cipherText, key.getBytes(), true); //decryption
         System.out.println(new String(decrypted)); //print original text
     }
 }
